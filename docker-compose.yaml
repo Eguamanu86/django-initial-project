@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  django:
+    build: .
+    container_name: dev-django
+    restart: always
+    ports:
+      - 0.0.0.0:8001:8000
+    env_file:
+      - ./.env
+    volumes:
+      - ./django-backend:/app/django-backend
+    deploy:
+      resources:
+        limits:
+          memory: $DOCKER_LIMITS_MEMORY
+          cpus: $DOCKER_LIMITS_CPUS
+    networks:
+        backend:
+            aliases:
+                - dev-django-backend
+networks:
+  backend:
+    external: true
+    name: network-docker-local
